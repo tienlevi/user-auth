@@ -3,8 +3,10 @@ import cors from "cors";
 import express from "express";
 import userRouter from "./routers/user.js";
 import authRouter from "./routers/auth.js";
+import Connect from "./config/connect.js";
 
 const app = express();
+const port = 3000;
 
 app.use(
   cors({
@@ -18,12 +20,16 @@ app.use(
 app.use(express.json());
 app.use("/v1", userRouter);
 app.use("/v1", authRouter);
+app.use("/", async (req, res) => {
+  return res.json(200).json({ message: "Hello world" });
+});
 
 app.get("/", (_req, res) => {
   res.status(200).send("OK");
 });
 
-const port = process.env.PORT || 3000;
+Connect();
+
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
