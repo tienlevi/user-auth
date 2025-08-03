@@ -17,10 +17,7 @@ app.use(
 
 app.all("/api/auth{/*path}", toNodeHandler(auth));
 
-
-
-app.use(express.json())
-
+app.use(express.json());
 
 app.get("/", (_req, res) => {
   res.status(200).send("OK");
