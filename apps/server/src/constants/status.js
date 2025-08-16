@@ -1,7 +1,0 @@
-export const STATUS_CODE = {
-  INTERVAL_ERROR: 500,
-  NOT_FOUND: 404,
-  AUTH: 400,
-  REQUIRED: 401,
-  SUCCESS: 200,
-};
