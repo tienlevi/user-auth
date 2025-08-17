@@ -1,10 +1,9 @@
 import { Router } from "express";
-import authToken from "../middlewares/authToken.js";
+import { getUsers, getUserById } from "../controllers/user.js";
 
 const userRouter = Router();
 
-userRouter.get("/auth", authToken, async (req, res) => {
-  return res.status(200).json({ message: "Welcome user" });
-});
+userRouter.get("/users", getUsers);
+userRouter.get("/user/:id", getUserById);
 
 export default userRouter;
