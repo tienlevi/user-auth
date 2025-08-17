@@ -1,21 +1,5 @@
 import type { Route } from "./+types/_index";
 
-const TITLE_TEXT = `
- ██████╗ ███████╗████████╗████████╗███████╗██████╗
- ██╔══██╗██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
- ██████╔╝█████╗     ██║      ██║   █████╗  ██████╔╝
- ██╔══██╗██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
- ██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
- ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
-
- ████████╗    ███████╗████████╗ █████╗  ██████╗██╗  ██╗
- ╚══██╔══╝    ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-    ██║       ███████╗   ██║   ███████║██║     █████╔╝
-    ██║       ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
-    ██║       ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-    ╚═╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
- `;
-
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "react-ts" },
@@ -26,13 +10,8 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   return (
     <>
-      <div className="container mx-auto max-w-3xl px-4 py-2">
-        <div className="overflow-x-auto font-mono text-sm">{TITLE_TEXT}</div>
-        <div className="grid gap-6">
-          <section className="rounded-lg border p-4">
-            <h2 className="mb-2 font-medium">API Status</h2>
-          </section>
-        </div>
+      <div className="container mx-auto px-4 py-2">
+        <div className="text-3xl text-center font-bold">Home Page</div>
       </div>
     </>
   );
