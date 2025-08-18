@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useRegister from "@/hooks/useRegister";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
@@ -17,13 +18,12 @@ function Register() {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+  const { mutate, isPending } = useRegister();
 
   const password = watch("password");
 
   const onSubmit = (data: Inputs) => {
-    // Remove confirmPassword from data before sending to API
-    const { confirmPassword, ...submitData } = data;
-    console.log(submitData);
+    mutate(data);
   };
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -99,7 +99,9 @@ function Register() {
         )}
 
         <div className="flex items-center gap-2">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Loading..." : "Submit"}
+          </Button>
           <Link to={"/login"}>
             <Button type="button" variant="outline">
               Back to login
