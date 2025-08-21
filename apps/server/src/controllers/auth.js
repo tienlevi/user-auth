@@ -31,7 +31,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
     const user = await UserSchema.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "Email not found" });

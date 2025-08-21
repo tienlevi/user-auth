@@ -2,18 +2,14 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
 } from "react-router";
 import type { Route } from "./+types/root";
 import "./index.css";
-import Header from "./components/header";
-import { ThemeProvider } from "./components/theme-provider";
-import { Toaster } from "./components/ui/sonner";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Providers from "./providers";
+import Main from "./main";
 
-const queryClient = new QueryClient();
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -47,20 +43,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="dark"
-      disableTransitionOnChange
-      storageKey="vite-ui-theme"
-    >
-      <QueryClientProvider client={queryClient}>
-        <div className="grid grid-rows-[auto_1fr] h-svh">
-          <Header />
-          <Outlet />
-        </div>
-        <Toaster richColors />
-      </QueryClientProvider>
-    </ThemeProvider>
+    <Providers>
+      <Main />
+    </Providers>
   );
 }
 
