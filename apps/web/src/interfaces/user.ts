@@ -5,5 +5,4 @@ interface IUser {
   password: string;
   confirmPassword?: string;
 }
-
-export type { IUser };
+export default IUser;

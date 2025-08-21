@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useAuth from "@/hooks/useAuth";
 import useRegister from "@/hooks/useRegister";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 interface Inputs {
   name: string;
@@ -18,13 +20,21 @@ function Register() {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+  const navigate = useNavigate();
   const { mutate, isPending } = useRegister();
+  const { user } = useAuth();
 
   const password = watch("password");
 
   const onSubmit = (data: Inputs) => {
     mutate(data);
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/profile");
+    }
+  }, [user]);
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 

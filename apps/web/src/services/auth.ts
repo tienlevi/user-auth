@@ -1,5 +1,12 @@
 import instance from "@/config/axios";
-import type { IUser } from "@/interfaces/user";
+import IUser from "@/interfaces/user";
+
+export const getAuthToken = async (token: string) => {
+  const response = await instance.get("/auth", {
+    headers: { Authorization: `bearer ${token}` },
+  });
+  return response.data;
+};
 
 export const register = async (data: IUser) => {
   const response = await instance.post("/register", data);

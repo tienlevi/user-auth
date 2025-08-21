@@ -1,13 +1,31 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/constants/query-key";
 import { toast } from "sonner";
-import { loginAuth } from "@/services/auth";
-import { setAccessToken } from "@/utils/auth";
+import { getAuthToken, loginAuth } from "@/services/auth";
+import { getAccessToken, setAccessToken } from "@/utils/auth";
 import { useNavigate } from "react-router";
+import IUser from "@/interfaces/user";
+import { getUserById } from "@/services/user";
+import IToken from "@/interfaces/token";
 
 function useAuth() {
+  const accessToken = getAccessToken();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const { data: token } = useQuery<IToken>({
+    queryKey: [QUERY_KEY.TOKEN],
+    queryFn: async () => {
+      return await getAuthToken(accessToken || "");
+    },
+  });
+  const { data: user, isLoading } = useQuery<IUser[]>({
+    queryKey: [QUERY_KEY.USERS],
+    queryFn: async () => {
+      return await getUserById(token?.id || "");
+    },
+    enabled: !!token,
+  });
 
   const { mutate: login, isPending: loadingLogin } = useMutation({
     mutationKey: [QUERY_KEY.LOGIN],
@@ -16,6 +34,7 @@ function useAuth() {
     },
     onSuccess: (data) => {
       setAccessToken(data.token);
+      navigate("/profile");
       return toast.success("Login success");
     },
     onError(error: any) {
@@ -26,12 +45,14 @@ function useAuth() {
   });
 
   const logout = () => {
-    queryClient.invalidateQueries({ queryKey: [QUERY_KEY.USER] });
-    localStorage.removeItem(QUERY_KEY.USER);
+    queryClient.invalidateQueries({ queryKey: [QUERY_KEY.USERS] });
+    queryClient.removeQueries({ queryKey: [QUERY_KEY.USERS] });
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
     navigate("/login");
   };
 
-  return { login, logout, loadingLogin };
+  return { user, isLoading, login, logout, loadingLogin };
 }
 
 export default useAuth;

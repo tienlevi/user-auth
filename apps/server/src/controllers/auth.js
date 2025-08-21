@@ -40,7 +40,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(402).json({ message: "Email or password incorrect" });
     }
-    const token = jwt.sign({ id: user._id }, accessToken);
+    const token = jwt.sign({ id: user._id }, accessToken, { expiresIn: "3h" });
     return res
       .status(200)
       .json({ message: "Login success", data: user, token: token });

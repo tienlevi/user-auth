@@ -14,7 +14,7 @@ async function authToken(req, res, next) {
       if (err) return res.status(403).json({ message: "Error verify" });
       req.body = body;
       // next();
-      return res.status(200).json({ body });
+      return res.status(200).json(body);
     });
   } catch (error) {
     console.log(error);

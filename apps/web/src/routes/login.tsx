@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import useLogin from "@/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 interface Inputs {
   email: string;
@@ -15,12 +16,19 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const { login, loadingLogin } = useLogin();
+  const { user, login, loadingLogin } = useAuth();
+  const navigate = useNavigate();
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const onSubmit = (data: Inputs) => {
     login(data);
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/profile");
+    }
+  }, [user]);
 
   return (
     <div className="container mx-auto px-4 py-2">
