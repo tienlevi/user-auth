@@ -4,5 +4,7 @@ interface IUser {
   email: string;
   password: string;
   confirmPassword?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 export default IUser;

@@ -19,8 +19,8 @@ function useAuth() {
       return await getAuthToken(accessToken || "");
     },
   });
-  const { data: user, isLoading } = useQuery<IUser[]>({
-    queryKey: [QUERY_KEY.USERS],
+  const { data: user, isLoading } = useQuery<IUser | null>({
+    queryKey: [QUERY_KEY.USERS, token?.id],
     queryFn: async () => {
       return await getUserById(token?.id || "");
     },

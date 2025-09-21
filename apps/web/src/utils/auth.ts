@@ -1,4 +1,4 @@
-import type { IUser } from "@/interfaces/user";
+import IUser from "@/interfaces/user";
 
 export const getContentType = () => ({
   "Content-Type": "application/json",

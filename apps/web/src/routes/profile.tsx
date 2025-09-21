@@ -1,22 +1,25 @@
 import useAuth from "@/hooks/useAuth";
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { formatDateWithTime } from "@/utils/format";
 
 function Profile() {
-  const navigate = useNavigate();
   const { user, isLoading } = useAuth();
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, []);
 
   if (isLoading) {
     return <>Loading...</>;
   }
 
-  return <div>Profile</div>;
+  return (
+    <div className="">
+      <div>Profile</div>
+      <div className="">
+        <div className="flex">User: {user?.name}</div>
+        <div className="flex">Email: {user?.email}</div>
+        <div className="flex">
+          Created at: {formatDateWithTime(user?.createdAt || "")}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Profile;
