@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 function Profile() {
   const navigate = useNavigate();
   const { user, isLoading, logout } = useAuth();
-  console.log("🚀 ~ Profile ~ user:", user);
+
   const handleLogout = useCallback(() => {
     logout();
   }, [user]);

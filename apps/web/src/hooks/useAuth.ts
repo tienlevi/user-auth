@@ -6,26 +6,27 @@ import { getAccessToken, setAccessToken } from "@/utils/auth";
 import IUser from "@/interfaces/user";
 import { getUserById } from "@/services/user";
 import IToken from "@/interfaces/token";
-import { useDispatch } from "react-redux";
-import { loginSlice, logoutSlice } from "@/stores/slices/authSlice";
 
 function useAuth() {
   const accessToken = getAccessToken();
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
 
   const { data: token } = useQuery<IToken>({
     queryKey: [QUERY_KEY.TOKEN],
     queryFn: async () => {
       return await getAuthToken(accessToken || "");
     },
+    enabled: !!accessToken,
   });
+  console.log("🚀 ~ useAuth ~ token:", token);
   const { data: user, isLoading } = useQuery<IUser | null>({
     queryKey: [QUERY_KEY.USERS, token?.id],
     queryFn: async () => {
       return await getUserById(token?.id || "");
     },
+    enabled: !!accessToken,
   });
+  console.log("🚀 ~ useAuth ~ user:", user);
 
   const { mutate: login, isPending: loadingLogin } = useMutation({
     mutationKey: [QUERY_KEY.LOGIN],
@@ -37,7 +38,6 @@ function useAuth() {
         queryKey: [QUERY_KEY.USERS, QUERY_KEY.TOKEN],
       });
       setAccessToken(data.token);
-      dispatch(loginSlice(data));
       return toast.success("Login success");
     },
     onError(error: any) {
@@ -48,12 +48,15 @@ function useAuth() {
   });
 
   const logout = () => {
-    queryClient.invalidateQueries({
+    localStorage.removeItem("accessToken");
+    queryClient.setQueryData([QUERY_KEY.USERS, token?.id], null);
+    queryClient.removeQueries({
       queryKey: [QUERY_KEY.USERS, QUERY_KEY.TOKEN],
     });
-    localStorage.removeItem("user");
-    localStorage.removeItem("accessToken");
-    dispatch(logoutSlice());
+    queryClient.removeQueries({
+      queryKey: [token?.id, accessToken],
+    });
+    queryClient.clear();
   };
 
   return { user, isLoading, login, logout, loadingLogin };
