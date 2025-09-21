@@ -21,7 +21,7 @@ export const register = async (req, res) => {
     await UserSchema.create({ ...req.body, password: hashPassword });
     return res.status(200).json({
       message: "Register success",
-      data: { ...req.body, password: hashPassword },
+      data: { ...req.body, password: hashPassword, verify: false },
     });
   } catch (error) {
     console.log(error);

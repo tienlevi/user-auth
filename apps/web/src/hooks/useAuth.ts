@@ -3,15 +3,16 @@ import { QUERY_KEY } from "@/constants/query-key";
 import { toast } from "sonner";
 import { getAuthToken, loginAuth } from "@/services/auth";
 import { getAccessToken, setAccessToken } from "@/utils/auth";
-import { useNavigate } from "react-router";
 import IUser from "@/interfaces/user";
 import { getUserById } from "@/services/user";
 import IToken from "@/interfaces/token";
+import { useDispatch } from "react-redux";
+import { loginSlice, logoutSlice } from "@/stores/slices/authSlice";
 
 function useAuth() {
   const accessToken = getAccessToken();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { data: token } = useQuery<IToken>({
     queryKey: [QUERY_KEY.TOKEN],
@@ -24,7 +25,6 @@ function useAuth() {
     queryFn: async () => {
       return await getUserById(token?.id || "");
     },
-    enabled: !!token,
   });
 
   const { mutate: login, isPending: loadingLogin } = useMutation({
@@ -33,8 +33,11 @@ function useAuth() {
       return await loginAuth(data);
     },
     onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.USERS, QUERY_KEY.TOKEN],
+      });
       setAccessToken(data.token);
-      navigate("/profile");
+      dispatch(loginSlice(data));
       return toast.success("Login success");
     },
     onError(error: any) {
@@ -45,11 +48,12 @@ function useAuth() {
   });
 
   const logout = () => {
-    queryClient.invalidateQueries({ queryKey: [QUERY_KEY.USERS] });
-    queryClient.removeQueries({ queryKey: [QUERY_KEY.USERS] });
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEY.USERS, QUERY_KEY.TOKEN],
+    });
     localStorage.removeItem("user");
     localStorage.removeItem("accessToken");
-    navigate("/login");
+    dispatch(logoutSlice());
   };
 
   return { user, isLoading, login, logout, loadingLogin };

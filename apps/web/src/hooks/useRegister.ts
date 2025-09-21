@@ -1,5 +1,5 @@
 import { QUERY_KEY } from "@/constants/query-key";
-import type { IUser } from "@/interfaces/user";
+import IUser from "@/interfaces/user";
 import { register } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";

@@ -25,10 +25,10 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && !loadingLogin) {
       navigate("/profile");
     }
-  }, [user]);
+  }, [user, loadingLogin]);
 
   return (
     <div className="container mx-auto px-4 py-2">

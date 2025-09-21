@@ -20,9 +20,6 @@ app.use(
 app.use(express.json());
 app.use("/api/v1", userRouter);
 app.use("/api/v1", authRouter);
-app.use("/", async (req, res) => {
-  return res.json(200).json({ message: "Hello world" });
-});
 
 app.get("/", (_req, res) => {
   res.status(200).send("OK");

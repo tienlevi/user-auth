@@ -5,12 +5,12 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import type { Route } from "./+types/root";
 import "./index.css";
 import Providers from "./providers";
 import Main from "./main";
+import { Suspense } from "react";
 
-export const links: Route.LinksFunction = () => [
+export const links = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -43,13 +43,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <Providers>
-      <Main />
-    </Providers>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Providers>
+        <Main />
+      </Providers>
+    </Suspense>
   );
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function ErrorBoundary({ error }: { error: any }) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
@@ -59,9 +61,6 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       error.status === 404
         ? "The requested page could not be found."
         : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
   }
   return (
     <main className="pt-16 p-4 container mx-auto">

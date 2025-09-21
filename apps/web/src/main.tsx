@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router";
+import { Outlet } from "react-router";
 import Header from "./components/header";
 import { Toaster } from "sonner";
 import useAuth from "./hooks/useAuth";
@@ -6,14 +6,7 @@ import { useEffect } from "react";
 import { logoutCallback } from "./utils/auth";
 
 function Main() {
-  const navigate = useNavigate();
-  const { user, logout } = useAuth();
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, [user]);
+  const { logout } = useAuth();
 
   useEffect(() => {
     logoutCallback(logout);
