@@ -1,10 +1,17 @@
 import transporter from "../config/transporter.js";
+import { frontEndURL } from "../constants/index.js";
 
-export const sendOTPEmail = async (email, otp, userName) => {
+export const sendVerificationEmail = async (
+  email,
+  verificationToken,
+  userName
+) => {
+  const verificationLink = `${frontEndURL}/?token=${verificationToken}&email=${email}`;
+
   const mailOptions = {
     from: process.env.EMAIL,
     to: email,
-    subject: "Password Reset OTP",
+    subject: "Verify Your Email Address",
     html: `
         <!DOCTYPE html>
         <html>
@@ -33,16 +40,19 @@ export const sendOTPEmail = async (email, otp, userName) => {
                 padding: 30px;
                 border-radius: 0 0 5px 5px;
               }
-              .otp-box {
-                background-color: #f0f0f0;
-                border: 2px dashed #4CAF50;
-                padding: 20px;
-                text-align: center;
-                font-size: 32px;
-                font-weight: bold;
-                letter-spacing: 5px;
-                margin: 20px 0;
+              .button {
+                display: inline-block;
+                padding: 15px 30px;
+                background-color: #4CAF50;
+                color: white;
+                text-decoration: none;
                 border-radius: 5px;
+                font-weight: bold;
+                margin: 20px 0;
+              }
+              .button-container {
+                text-align: center;
+                margin: 30px 0;
               }
               .warning {
                 color: #d32f2f;
@@ -55,27 +65,35 @@ export const sendOTPEmail = async (email, otp, userName) => {
                 font-size: 12px;
                 color: #666;
               }
+              .link {
+                word-break: break-all;
+                color: #666;
+                font-size: 12px;
+              }
             </style>
           </head>
           <body>
             <div class="container">
               <div class="header">
-                <h1>Password Reset Request</h1>
+                <h1>Welcome! Verify Your Email</h1>
               </div>
               <div class="content">
                 <p>Hi ${userName},</p>
-                <p>You requested to reset your password. Please use the following OTP (One-Time Password) to complete the process:</p>
+                <p>Thank you for registering! Please verify your email address by clicking the button below:</p>
                 
-                <div class="otp-box">
-                  ${otp}
+                <div class="button-container">
+                  <a href="${verificationLink}" class="button">Verify Email Address</a>
                 </div>
                 
-                <p><strong>This OTP is valid for 10 minutes.</strong></p>
+                <p>Or copy and paste this link into your browser:</p>
+                <p class="link">${verificationLink}</p>
                 
-                <p>If you didn't request a password reset, please ignore this email or contact support if you have concerns.</p>
+                <p><strong>This link will expire in 24 hours.</strong></p>
+                
+                <p>If you didn't create an account, please ignore this email or contact support if you have concerns.</p>
                 
                 <div class="warning">
-                  ⚠️ Never share this OTP with anyone. Our team will never ask for your OTP.
+                  ⚠️ Never share this verification link with anyone.
                 </div>
               </div>
               <div class="footer">

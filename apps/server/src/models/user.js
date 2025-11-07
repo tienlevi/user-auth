@@ -5,9 +5,9 @@ const User = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    verify: { type: Boolean },
-    resetPasswordOTP: { type: String },
-    resetPasswordExpires: { type: Date },
+    verify: { type: Boolean, default: false },
+    verificationToken: { type: String },
+    verificationTokenExpiry: { type: Date },
   },
   { timestamps: true, versionKey: false }
 );
