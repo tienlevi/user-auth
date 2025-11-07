@@ -18,7 +18,6 @@ function useAuth() {
     },
     enabled: !!accessToken,
   });
-  console.log("🚀 ~ useAuth ~ token:", token);
   const { data: user, isLoading } = useQuery<IUser | null>({
     queryKey: [QUERY_KEY.USERS, token?.id],
     queryFn: async () => {
@@ -26,7 +25,6 @@ function useAuth() {
     },
     enabled: !!accessToken,
   });
-  console.log("🚀 ~ useAuth ~ user:", user);
 
   const { mutate: login, isPending: loadingLogin } = useMutation({
     mutationKey: [QUERY_KEY.LOGIN],

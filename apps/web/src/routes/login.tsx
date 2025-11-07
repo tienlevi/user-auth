@@ -65,6 +65,14 @@ export default function Login() {
         {errors.password && (
           <div className="text-red-500 text-sm">{errors.password.message}</div>
         )}
+        <div className="flex items-center justify-end mb-2">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+          >
+            Forgot Password?
+          </Link>
+        </div>
         <div className="flex items-center gap-2">
           <Button type="submit" disabled={loadingLogin}>
             {loadingLogin ? "Loading..." : "Submit"}

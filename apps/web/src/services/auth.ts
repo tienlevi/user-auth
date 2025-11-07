@@ -17,3 +17,16 @@ export const loginAuth = async (data: { email: string; password: string }) => {
   const response = await instance.post("/login", data);
   return response.data;
 };
+
+export const forgotPassword = async (data: { email: string }) => {
+  const response = await instance.post("/forgot-password", data);
+  return response.data;
+};
+
+export const resetPassword = async (data: {
+  token: string;
+  newPassword: string;
+}) => {
+  const response = await instance.post("/reset-password", data);
+  return response.data;
+};

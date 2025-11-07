@@ -35,6 +35,9 @@ importers:
       mongoose:
         specifier: ^8.14.0
         version: 8.16.5
+      nodemailer:
+        specifier: ^7.0.10
+        version: 7.0.10
       zod:
         specifier: ^4.0.2
         version: 4.0.10
@@ -2960,6 +2963,10 @@ packages:
 
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
+
+  nodemailer@7.0.10:
+    resolution: {integrity: sha512-Us/Se1WtT0ylXgNFfyFSx4LElllVLJXQjWi2Xz17xWw7amDKO2MLtFnVp1WACy7GkVGs+oBlRopVNUzlrGSw1w==}
+    engines: {node: '>=6.0.0'}
 
   nopt@7.2.1:
     resolution: {integrity: sha512-taM24ViiimT/XntxbPyJQzCG+p4EKOpgD3mxFwW38mGjVUrfERQOeY4EDHjdnptttfHuHQXFx+lTP08Q+mLa/w==}
@@ -6565,6 +6572,8 @@ snapshots:
   node-gyp-build@4.8.4: {}
 
   node-releases@2.0.19: {}
+
+  nodemailer@7.0.10: {}
 
   nopt@7.2.1:
     dependencies:
