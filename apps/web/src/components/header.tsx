@@ -1,13 +1,15 @@
 import { NavLink } from "react-router";
 
 import { ModeToggle } from "./mode-toggle";
+import useAuth from "@/hooks/useAuth";
 
 export default function Header() {
+  const { user } = useAuth();
+
   const links = [
     { to: "/", label: "Home" },
     { to: "/login", label: "Login" },
     { to: "/dashboard", label: "Dashboard" },
-    { to: "/profile", label: "Profile" },
   ];
 
   return (
@@ -26,6 +28,15 @@ export default function Header() {
               </NavLink>
             );
           })}
+          {user && (
+            <NavLink
+              to={"/profile"}
+              className={({ isActive }) => (isActive ? "font-bold" : "")}
+              end
+            >
+              Profile
+            </NavLink>
+          )}
         </nav>
         <div className="flex items-center gap-2">
           <ModeToggle />

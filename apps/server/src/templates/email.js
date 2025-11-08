@@ -6,7 +6,7 @@ export const sendVerificationEmail = async (
   verificationToken,
   userName
 ) => {
-  const verificationLink = `${frontEndURL}/?token=${verificationToken}&email=${email}`;
+  const verificationLink = `${frontEndURL}/verify-email?token=${verificationToken}&email=${email}`;
 
   const mailOptions = {
     from: process.env.EMAIL,

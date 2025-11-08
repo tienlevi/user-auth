@@ -4,6 +4,7 @@ interface IUser {
   email: string;
   password: string;
   confirmPassword?: string;
+  verify: boolean;
   createdAt?: string;
   updatedAt?: string;
 }

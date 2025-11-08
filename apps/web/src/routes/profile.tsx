@@ -26,6 +26,9 @@ function Profile() {
         <div className="flex">User: {user?.name}</div>
         <div className="flex">Email: {user?.email}</div>
         <div className="flex">
+          Verify: {user?.verify ? "Success" : "Pending"}
+        </div>
+        <div className="flex">
           Created at: {formatDateWithTime(user?.createdAt || "")}
         </div>
       </div>

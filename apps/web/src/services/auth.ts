@@ -17,3 +17,10 @@ export const loginAuth = async (data: { email: string; password: string }) => {
   const response = await instance.post("/login", data);
   return response.data;
 };
+
+export const verifyEmail = async (token: string, email: string) => {
+  const response = await instance.get("/verify-email", {
+    params: { token, email },
+  });
+  return response.data;
+};
